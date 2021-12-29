@@ -1,0 +1,8 @@
+---
+- name : Install and config
+  hosts : group1
+  tasks :
+    - name : install java
+      yum : 
+        name : java-1.8.0-openjdk
+        state : present

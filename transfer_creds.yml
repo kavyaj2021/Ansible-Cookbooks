@@ -1,0 +1,8 @@
+---
+- hosts : group1
+  tasks:
+    - name: Transfer creds to RM - GROUP1 
+      copy: 
+        src: /opt/myplaybooks/sample_cred.txt
+        dest: /tmp/sample_cred.txt  
+        

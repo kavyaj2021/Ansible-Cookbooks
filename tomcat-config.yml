@@ -1,0 +1,29 @@
+---
+- hosts : group1
+  name : Install and tomcat config
+  vars :
+    java_v : java-1.8.0-openjdk
+    set_java : jre-1.8.0-openjdk.x86_64
+    tomcat_port : 8080
+    tomcat_version : 9.0.56
+    tomcat_url : "https://dlcdn.apache.org/tomcat/tomcat-{{tomcat_version.split('.')[0]}}/v{{tomcat_version}}/bin/apache-tomcat-{{tomcat_version}}-deployer.tar.gz" 
+  tasks :
+   - name : Installing Openjdk
+     yum :
+       name : "{{java_v}}"
+       state: present
+   - name : Downloading tomcat
+     get_url:
+       url: "{{tomcat_url}}"
+       dest: /usr/local
+   - name : Extracting Downloaded tar file
+     unarchive:
+      src: "/usr/local/apache-tomcat-{{tomcat_version}}.tar.gz"
+      dest: /usr/local
+      remote_src: yes
+   - name : Renaming tomcat home
+     command: mv /usr/local/apache-tomcat-{{tomcat_version}} tomcat
+   - name : starting tomcat
+     shell : nohup /usr/local/tomcat/bin/startup.sh &
+       
+  
